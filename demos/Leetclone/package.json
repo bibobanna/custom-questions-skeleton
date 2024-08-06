@@ -34,10 +34,12 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@instructure/ui": "^9.5.2",
     "@monaco-editor/react": "^4.6.0",
     "axios": "^1.6.7",
     "framer-motion": "^11.3.19",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-toastify": "^10.0.5"
   }
 }

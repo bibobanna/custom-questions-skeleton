@@ -2,9 +2,8 @@ import { PREFIX } from "./constants";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-import { background, ChakraProvider, extendBaseTheme } from "@chakra-ui/react";
-import theme from "../../theme.js";
 import "regenerator-runtime/runtime";
+import { InstUISettingsProvider, canvas } from "@instructure/ui";
 
 export default class Question {
   constructor(init, lrnUtils) {
@@ -126,9 +125,9 @@ export default class Question {
 
     reactRoot.render(
       <React.StrictMode>
-        <ChakraProvider theme={theme}>
+        <InstUISettingsProvider theme={canvas}>
           <App />
-        </ChakraProvider>
+        </InstUISettingsProvider>
       </React.StrictMode>
     );
   }

@@ -1,62 +1,78 @@
 import React from "react";
 import { useState } from "react";
-import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../api";
+import { Button, Text, View } from "@instructure/ui";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Output = ({ editorRef, language }) => {
-  const toast = useToast();
   const [output, setOutput] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const notifyError = (message) => {
+    toast.error(message || "Unable to run code", {
+      position: "top-right",
+      autoClose: 6000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const { run: result } = await executeCode(language, sourceCode);
       setOutput(result.output.split("\n"));
-      result.stderr ? setIsError(true) : setIsError(false);
+      setIsError(!!result.stderr);
+      if (result.stderr) {
+        notifyError("An error occurred in execution.");
+      }
     } catch (error) {
       console.log(error);
-      toast({
-        title: "An error occurred.",
-        description: error.message || "Unable to run code",
-        status: "error",
-        duration: 6000,
-      });
+      notifyError(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Box>
-      <Button
-        variant="outline"
-        colorScheme="green"
-        mb={4}
-        isLoading={isLoading}
-        onClick={runCode}
-      >
+    <View>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Button isLoading={isLoading} onClick={runCode} display="flex">
         Run Code
       </Button>
-      <Text mb={2} fontSize="lg">
-        Output:
-      </Text>
-      <Box
-        height="20vh" // TODO: Change height
-        p={2}
-        color={isError ? "red.400" : ""}
-        border="1px solid"
-        borderRadius={4}
-        borderColor={isError ? "red.500" : "#333"}
+      <Text fontSize="large">Output:</Text> <br />
+      <View // TODO: Change to View
+        as="div"
+        color={isError ? "alert" : "inverse-primary"}
+        borderColor={isError ? "alert" : "inverse-primary"}
+        borderWidth="medium"
+        withFocusOutline={true}
+        focusPosition={"inset"}
+        borderRadius="medium"
+        height={"10rem"}
       >
         {output
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
           : 'Click "Run Code" to see the output here'}
-      </Box>
-    </Box>
+      </View>
+    </View>
   );
 };
 export default Output;
