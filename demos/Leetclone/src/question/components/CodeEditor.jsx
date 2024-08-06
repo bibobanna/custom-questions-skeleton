@@ -1,10 +1,10 @@
 import React from "react";
 import { useRef, useState } from "react";
-import { Box } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import { CODE_SNIPPETS } from "../constants";
 import Output from "./Output";
+import { View } from "@instructure/ui";
 
 const CodeEditor = () => {
   const editorRef = useRef();
@@ -22,8 +22,8 @@ const CodeEditor = () => {
   };
 
   return (
-    <Box>
-      <Box>
+    <View>
+      <View>
         <LanguageSelector language={language} onSelect={onSelect} />
         <Editor
           options={{
@@ -39,9 +39,9 @@ const CodeEditor = () => {
           value={value}
           onChange={(value) => setValue(value)}
         />
-      </Box>
+      </View>
       <Output editorRef={editorRef} language={language} />
-    </Box>
+    </View>
   );
 };
 export default CodeEditor;

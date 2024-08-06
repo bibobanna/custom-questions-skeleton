@@ -10,7 +10,7 @@ const LanguageSelector = ({ language, onSelect }) => {
       <Text display="flex">Language:</Text> <br />
       <Menu
         placement="bottom"
-        trigger={<Button>Menu</Button>}
+        trigger={<Button>{language ? language : "Select Language"}</Button>}
         mountNode={() => document.getElementById("main")}
       >
         {languages.map(([lang, version]) => (

@@ -14,6 +14,7 @@ export const LANGUAGE_VERSIONS = {
   java: "15.0.2",
   csharp: "6.12.0",
   php: "8.2.3",
+  // ruby: add later
 };
 
 export const CODE_SNIPPETS = {
